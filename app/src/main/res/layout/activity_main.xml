@@ -8,15 +8,33 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="411dp"
-        android:layout_height="453dp"
-        app:srcCompat="@drawable/common_full_open_on_phone" />
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/common_full_open_on_phone"
+        tools:layout_editor_absoluteY="64dp" />
 
     <Button
         android:id="@+id/selectImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Image"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="492dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

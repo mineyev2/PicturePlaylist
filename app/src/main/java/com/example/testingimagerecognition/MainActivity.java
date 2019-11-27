@@ -1,5 +1,6 @@
 package com.example.testingimagerecognition;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -18,10 +19,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
+
     }
 
 
@@ -89,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ImageView toDisplay = (ImageView) findViewById(R.id.imageView);
                 toDisplay.setImageBitmap(bitmap);
+                detectLabelsInImage(bitmap);
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -98,7 +107,72 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void detectLabelsInImage() {
+    public void detectLabelsInImage(Bitmap toDetect) {
+        FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
 
+        FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
+                .getOnDeviceImageLabeler();
+
+        labeler.processImage(imageToCheck)
+                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                    @Override
+                    public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                        // Task completed successfully
+                        // ...
+                        TextView results = findViewById(R.id.textView);
+                        String output = new String();
+                        for (FirebaseVisionImageLabel label: labels) {
+                            String text = label.getText();
+                            String entityId = label.getEntityId();
+                            float confidence = label.getConfidence();
+                            System.out.println(text + entityId + confidence);
+                            System.out.println();
+                            output += text + "\n";
+                        }
+                        results.setText(output);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Task failed with an exception
+                        // ...
+                    }
+                });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
