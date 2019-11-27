@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //checking whether accessing the external storage stuff is allowed
+        //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
         }
 
+        //creates an onClickListener which launches pickFromGallery when button is pressed
         Button selectImage = findViewById(R.id.selectImage);
 
         selectImage.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //starts an intent which allows user to select only specific image types
+    // I think that's what android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI is specifying
     private void pickFromGallery(){
         try{
             Intent intent = new Intent(Intent.ACTION_PICK,
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //this runs when a result is received from the user selecting an image
     @Override
     public void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -90,11 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-            //image_view.setImageBitmap(bitmap);
-
-            //to know about the selected image width and height
-            //Toast.makeText(MainActivity.this, image_view.getDrawable().getIntrinsicWidth()+" & "+image_view.getDrawable().getIntrinsicHeight(), Toast.LENGTH_SHORT).show();
 
         }
     }
