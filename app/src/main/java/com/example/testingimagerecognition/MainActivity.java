@@ -97,17 +97,16 @@ public class MainActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ImageView toDisplay = (ImageView) findViewById(R.id.imageView);
                 toDisplay.setImageBitmap(bitmap);
-                detectLabelsInImage(bitmap);
+                detectLabelsInImage();
 
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
         }
     }
 
-    public void detectLabelsInImage(Bitmap toDetect) {
+    public void detectLabelsInImage() {
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
 
         FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
