@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "424378391066",
+    "firebase_url": "https://testingimagerecognition.firebaseio.com",
+    "project_id": "testingimagerecognition",
+    "storage_bucket": "testingimagerecognition.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424378391066:android:0324049ca30ddb4d2fcfa3",
+        "android_client_info": {
+          "package_name": "com.example.testingimagerecognition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424378391066-uisrm1hsp32idmpdsidbseg17r8o4lrg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.testingimagerecognition",
+            "certificate_hash": "4b9a95337c1cd4545ba47f36ca1c6edea24b7327"
+          }
+        },
+        {
+          "client_id": "424378391066-btgefke69qnq0h96v405btvf648lnuul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPuAA9Ryn_I6eVxEff25L2XFJz9vzQwoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424378391066-btgefke69qnq0h96v405btvf648lnuul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
