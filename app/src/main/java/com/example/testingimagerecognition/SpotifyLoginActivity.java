@@ -45,6 +45,13 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Button signIn = findViewById(R.id.signIn);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spotifyAuthentification();
+            }
+        });
         try {
             String urlBase = "https://accounts.spotify.com/authorize";
             URL url = new URL(urlBase + "?client_id=a0f1241498384db5ba98d07fd0ec4b99"
@@ -63,11 +70,10 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     }
 
-    //this runs when a result is received from the user selecting an image
-    @Override
-    public void onActivityResult(int requestCode,int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
+    private void spotifyAuthentification() {
+        System.out.println("Sign In Button");
     }
+
 }
 
 
