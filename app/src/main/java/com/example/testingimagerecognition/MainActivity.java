@@ -29,7 +29,18 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final Intent intent = new Intent(this, SpotifyLoginActivity.class);
 
         //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -71,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, GALLERY_REQUEST_CODE);
-        }catch(Exception exp){
-            Log.i("Error",exp.toString());
+        } catch(Exception exp){
+            Log.i("Error", exp.toString());
         }
     }
 
@@ -106,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void detectLabelsInImage() {
+    public Map<String, Float> detectLabelsInImage() {
+        //maps the confidence of a keyword onto a string representing the keyword
+        final Map<String, Float> keywords = new HashMap<String, Float>();
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
 
         FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
@@ -124,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             String text = label.getText();
                             String entityId = label.getEntityId();
                             float confidence = label.getConfidence();
+                            keywords.put(text, confidence);
                             System.out.println(text + entityId + confidence);
                             System.out.println();
                             output += text + "\n";
@@ -138,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+        return keywords;
     }
 }
 
