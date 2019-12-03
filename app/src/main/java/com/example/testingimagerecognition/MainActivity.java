@@ -34,14 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Album;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-
 public class MainActivity extends AppCompatActivity {
 
     public static final int GALLERY_REQUEST_CODE  = 1;
@@ -51,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Intent intent = new Intent(this, SpotifyLoginActivity.class);
 
         //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -109,11 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ImageView toDisplay = (ImageView) findViewById(R.id.imageView);
                 toDisplay.setImageBitmap(bitmap);
-                detectLabelsInImage();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            HashMap<String, Float> keywords = new HashMap<>(detectLabelsInImage());
+            Intent intent = new Intent(this, PlaylistActivity.class);
+            intent.putExtra("keywords", keywords);
+            startActivity(intent);
+            //finish();
 
         }
     }
