@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
@@ -55,6 +56,15 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 spotifyAuthentification();
             }
         });
+
+        Button help = findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHelpScreen();
+            }
+        });
+
         try {
             String urlBase = "https://accounts.spotify.com/authorize";
             URL url = new URL(urlBase + "?client_id=a0f1241498384db5ba98d07fd0ec4b99"
@@ -75,8 +85,12 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     private void spotifyAuthentification() {
         System.out.println("Sign In Button");
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivityForResult(intent, 1);
+        finish();
+    }
+
+    private void showHelpScreen() {
+        System.out.println("Help");
+        startActivity(new Intent(this, HelpActivity.class));
     }
 
 }
