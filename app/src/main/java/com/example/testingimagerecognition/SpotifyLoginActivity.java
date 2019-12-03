@@ -85,8 +85,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     private void spotifyAuthentification() {
         System.out.println("Sign In Button");
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivityForResult(intent, 1);
         finish();
     }
 
