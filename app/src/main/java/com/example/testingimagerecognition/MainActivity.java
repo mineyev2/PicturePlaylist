@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, PlaylistActivity.class);
             intent.putExtra("keywords", keywords);
             startActivity(intent);
-            //finish();
 
         }
     }
