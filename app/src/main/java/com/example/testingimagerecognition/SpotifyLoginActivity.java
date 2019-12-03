@@ -57,7 +57,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton help = findViewById(R.id.floatingActionButton2);
+        Button help = findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
