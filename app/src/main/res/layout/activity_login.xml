@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Animation.Design.BottomSheetDialog">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif"
         android:text="Sign in to Spotify to generate a playlist for any mood!"
         android:textAlignment="center"
@@ -30,6 +33,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
         android:adjustViewBounds="false"
+        android:background="@drawable/custom_button"
         android:backgroundTint="@android:color/black"
         android:drawableRight="@drawable/spotify_icon"
         android:text="Sign in"
@@ -56,31 +60,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#000000" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="114dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="0"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton2"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/numSongs"
-        app:layout_constraintTop_toBottomOf="@+id/signIn"
-        app:layout_constraintVertical_bias="0.109" />
-
-    <TextView
-        android:id="@+id/numSongs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="208dp"
-        android:text="Number of Songs"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

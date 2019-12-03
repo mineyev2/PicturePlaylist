@@ -19,10 +19,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SpotifyLoginActivity">
+        <activity android:name=".SpotifyLoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

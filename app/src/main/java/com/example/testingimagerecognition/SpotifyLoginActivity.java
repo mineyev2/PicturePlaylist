@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import java.net.HttpURLConnection;
+
 
 public class SpotifyLoginActivity extends AppCompatActivity {
 
