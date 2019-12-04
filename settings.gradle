@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':spotify-auth-1.0.0-beta12'
 rootProject.name='testingImageRecognition'
