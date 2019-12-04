@@ -64,9 +64,12 @@ import retrofit.RetrofitError;
 public class SpotifyLoginActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1337;
-    private static final String REDIRECT_URI = "cs125.cs.illinois.edu://callback";
-    private static final String CLIENT_ID = "a0f1241498384db5ba98d07fd0ec4b99";
 
+    //i made my own client id stuff for now for testing purposes
+    private static final String REDIRECT_URI = "https://testing.com/callback";
+    private static final String CLIENT_ID = "1b2c382ea028460aac34f3b0d1f10f80";
+
+    String token = new String();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,28 +90,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 showHelpScreen();
             }
         });
-
-        try {
-            /*
-            String urlBase = "https://accounts.spotify.com/authorize";
-
-            URL url = new URL(urlBase + "?client_id=a0f1241498384db5ba98d07fd0ec4b99"
-                    + "&response_type=code" + "&redirect_uri=https://cs125.cs.illinois.edu/"
-                    + "scope=user-read-private user-read-email");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-
-            con.setRequestMethod("GET");
-            con.setDoOutput(true);
-            //DataOutputStream out = new DataOutputStream(url);
-            //out.writeBytes(ParameterStringBuilder);
-
-             */
-
-
-        } catch (Exception e) {
-            Log.i("Error", e.toString());
-        }
     }
 
     private void spotifyAuthentification() {
@@ -119,10 +100,13 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
         SpotifyApi api = new SpotifyApi();
-        api.setAccessToken("myAccessToken");
+
+        api.setAccessToken(token);
         SpotifyService spotify = api.getService();
 
-        spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
+        //getting an error here, might have something to do with having to input a country code...
+        /*
+        spotify.getAlbum("4eLPsYPBmXABThSJ821sqY", new Callback<Album>() {
             @Override
             public void success(Album album, retrofit.client.Response response) {
                 Log.d("Album success", album.name);
@@ -133,6 +117,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 Log.d("Album failure", error.toString());
             }
         });
+
+         */
 
         finish();
     }
@@ -165,6 +151,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // Handle successful response
+                    token = response.getAccessToken();
                     System.out.println("success");
                     break;
 
