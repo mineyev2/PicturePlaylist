@@ -132,7 +132,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
 
-        builder.setScopes(new String[]{"streaming"});
+        builder.setScopes(new String[]{"user-read-email user-read-private playlist-modify-public playlist-modify-private"});
         AuthenticationRequest request = builder.build();
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -158,10 +158,14 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
+                    finish();
+                    startActivity(new Intent(this, SpotifyLoginActivity.class));
                     break;
 
                 // Most likely auth flow was cancelled
                 default:
+                    finish();
+                    startActivity(new Intent(this, SpotifyLoginActivity.class));
                     // Handle other cases
             }
         }
