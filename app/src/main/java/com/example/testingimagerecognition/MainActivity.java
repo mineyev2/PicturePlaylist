@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final int GALLERY_REQUEST_CODE  = 1;
