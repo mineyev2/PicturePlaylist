@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int GALLERY_REQUEST_CODE  = 1;
     public Bitmap bitmap;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

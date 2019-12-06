@@ -102,7 +102,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-
+        System.out.println("token: " + token);
         SpotifyApi api = new SpotifyApi();
 
         api.setAccessToken(token);
