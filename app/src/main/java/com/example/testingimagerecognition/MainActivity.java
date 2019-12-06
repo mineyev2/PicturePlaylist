@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 
@@ -52,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         token = getIntent().getStringExtra("token");
-        //startActivity(new Intent(this, SpotifyLoginActivity.class));
-        //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
+
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
@@ -114,19 +114,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             detectLabelsInImage();
-            Intent intent = new Intent(this, PlaylistActivity.class);
-            System.out.println("Keyword from main: " + keywords);
-            intent.putExtra("keywords", keywords);
-            intent.putExtra("token", token);
-            startActivity(intent);
+
 
         }
     }
 
     public void detectLabelsInImage() {
-        //maps the confidence of a keyword onto a string representing the keyword
-
-        //CountDownLatch latch = new CountDownLatch(1);
 
         keywords = new HashMap<>();
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
@@ -147,24 +140,15 @@ public class MainActivity extends AppCompatActivity {
                             String entityId = label.getEntityId();
                             float confidence = label.getConfidence();
                             keywords.put(text, confidence);
-                            //System.out.println(label);
-                            //System.out.println(text + entityId + confidence);
-                            //System.out.println();
                             output += text + "\n";
                         }
                         results.setText(output);
-                        //latch.countDown();
-                        //System.out.println(labels);
 
-
-                        /*
-                        List<String> lst = new ArrayList<String>();
-                        for (FirebaseVisionImageLabel x: labels) {
-                            keywords.put(x.getText(), x.getConfidence());
-                        }
-                        System.out.println(keywords);
-
-                         */
+                        Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
+                        intent.putExtra("keywords", keywords);
+                        intent.putExtra("token", token);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -174,10 +158,6 @@ public class MainActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-
-        //latch.await();
-        //System.out.println("keywords1345544: " + keywords);
-        //eturn keywords;
     }
 }
 

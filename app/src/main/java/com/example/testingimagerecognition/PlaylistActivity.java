@@ -45,8 +45,8 @@ public class PlaylistActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.spotify.com/v1/search";
 
-        //System.out.println("token: " + token);
-        //System.out.println("keywords: " + keywords);
+        System.out.println("token: " + token);
+        System.out.println("keywords: " + keywords);
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
