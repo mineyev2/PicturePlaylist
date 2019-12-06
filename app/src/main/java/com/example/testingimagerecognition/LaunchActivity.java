@@ -21,7 +21,7 @@ public class LaunchActivity extends AppCompatActivity {
 
             @Override
             public void onReceive(Context arg0, Intent intent) {
-                System.out.println("broadcast received");
+                //System.out.println("broadcast received");
                 String action = intent.getAction();
                 if (action.equals("finish_activity")) {
                     finish();

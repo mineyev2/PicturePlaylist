@@ -93,7 +93,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
     private void spotifyAuthentification() {
-        System.out.println("Sign In Button");
+        //System.out.println("Sign In Button");
 
 
         final AuthenticationRequest request = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI)
