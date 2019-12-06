@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         token = getIntent().getStringExtra("token");
-        System.out.println("token: " + token);
+        //System.out.println("token: " + token);
         //startActivity(new Intent(this, SpotifyLoginActivity.class));
         //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -112,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
             HashMap<String, Float> keywords = new HashMap<>(detectLabelsInImage());
             Intent intent = new Intent(this, PlaylistActivity.class);
-            intent.putExtra("keywords", keywords);
+            intent.putExtra("keywords: ", keywords);
+            intent.putExtra("token: ", token);
             startActivity(intent);
 
         }
