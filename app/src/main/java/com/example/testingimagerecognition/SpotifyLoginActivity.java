@@ -129,7 +129,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     token = response.getAccessToken();
-                    System.out.println("token: " + token);
+                    //System.out.println("token: " + token);
                     //System.out.println("token:" + token);
 
                     Intent intentFinish = new Intent("finish_activity");

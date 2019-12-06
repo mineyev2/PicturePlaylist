@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        token = getIntent().getStringExtra("token");
+        System.out.println("token: " + token);
         //startActivity(new Intent(this, SpotifyLoginActivity.class));
         //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
