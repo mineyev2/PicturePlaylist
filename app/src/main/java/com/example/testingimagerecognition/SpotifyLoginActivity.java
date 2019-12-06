@@ -131,6 +131,10 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     token = response.getAccessToken();
                     System.out.println("token: " + token);
                     //System.out.println("token:" + token);
+
+                    Intent intentFinish = new Intent("finish_activity");
+                    sendBroadcast(intentFinish);
+
                     break;
 
                 // Auth flow returned an error
