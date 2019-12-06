@@ -134,6 +134,10 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
                     Intent intentFinish = new Intent("finish_activity");
                     sendBroadcast(intentFinish);
+                    Intent intentMain = new Intent(this, MainActivity.class)
+                            .putExtra("token", token);
+
+                    startActivity(intentMain);
 
                     break;
 
