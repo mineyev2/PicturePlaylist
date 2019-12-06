@@ -1,19 +1,23 @@
 package com.example.testingimagerecognition;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class PlaylistActivity extends AppCompatActivity {
 
@@ -37,30 +41,30 @@ public class PlaylistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_playlist);
 
         token = getIntent().getStringExtra("token");
-
         keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
+        songs = new ArrayList<>();
+        SpotifyApi api = new SpotifyApi();
 
+        api.setAccessToken(token);
+        SpotifyService spotify = api.getService();
 
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.spotify.com/v1/search";
-
-        System.out.println("token: " + token);
-        System.out.println("keywords: " + keywords);
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("Response is: "+ response.substring(0,500));
+        System.out.println(keywords);
+        for (String word: keywords.keySet()) {
+            spotify.searchTracks(word, new Callback<TracksPager>() {
+                @Override
+                public void success(TracksPager pager, Response response) {
+                    for (Track track: pager.tracks.items) {
+                        songs.add(track.id);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Error");
-            }
-        });
+                    System.out.println(songs);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    System.err.println("Search failure" + error.toString());
+                }
+            });
+        }
 
 
 
