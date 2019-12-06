@@ -102,7 +102,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-        System.out.println("token: " + token);
+
         SpotifyApi api = new SpotifyApi();
 
         api.setAccessToken(token);
@@ -129,20 +129,16 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     token = response.getAccessToken();
+                    System.out.println("token: " + token);
                     //System.out.println("token:" + token);
                     break;
 
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
-                    finish();
-                    startActivity(new Intent(this, SpotifyLoginActivity.class));
-                    break;
 
                 // Most likely auth flow was cancelled
                 default:
-                    finish();
-                    startActivity(new Intent(this, SpotifyLoginActivity.class));
                     // Handle other cases
             }
         }
