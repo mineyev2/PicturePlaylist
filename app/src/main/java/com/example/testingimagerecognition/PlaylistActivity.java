@@ -27,13 +27,28 @@ public class PlaylistActivity extends AppCompatActivity {
      */
     List<String> songs;
 
+    /**
+     * API token
+     */
+    private String token;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
-        keywords = (HashMap<String, Float>) getIntent().getExtras().get("keywords");
+
+        token = getIntent().getStringExtra("token");
+
+        keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
+
+
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://api.spotify.com/v1/search";
-        System.out.println(keywords);
+
+        //System.out.println("token: " + token);
+        //System.out.println("keywords: " + keywords);
+
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

@@ -93,7 +93,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
     private void spotifyAuthentification() {
-        System.out.println("Sign In Button");
+        //System.out.println("Sign In Button");
 
 
         final AuthenticationRequest request = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI)
@@ -129,8 +129,16 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     token = response.getAccessToken();
-                    System.out.println("token: " + token);
+                    //System.out.println("token: " + token);
                     //System.out.println("token:" + token);
+
+                    Intent intentFinish = new Intent("finish_activity");
+                    sendBroadcast(intentFinish);
+                    Intent intentMain = new Intent(this, MainActivity.class)
+                            .putExtra("token", token);
+
+                    startActivity(intentMain);
+
                     break;
 
                 // Auth flow returned an error

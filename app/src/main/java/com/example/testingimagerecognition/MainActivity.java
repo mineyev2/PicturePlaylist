@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
@@ -30,9 +31,11 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 
@@ -41,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
     public static final int GALLERY_REQUEST_CODE  = 1;
     public Bitmap bitmap;
     private String token;
+    HashMap<String, Float> keywords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(this, SpotifyLoginActivity.class));
+
+        token = getIntent().getStringExtra("token");
+        //startActivity(new Intent(this, SpotifyLoginActivity.class));
         //checking whether accessing the external storage stuff is allowed (dont know if this is necessary)
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
@@ -107,17 +113,22 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            HashMap<String, Float> keywords = new HashMap<>(detectLabelsInImage());
+            detectLabelsInImage();
             Intent intent = new Intent(this, PlaylistActivity.class);
+            System.out.println("Keyword from main: " + keywords);
             intent.putExtra("keywords", keywords);
+            intent.putExtra("token", token);
             startActivity(intent);
 
         }
     }
 
-    public Map<String, Float> detectLabelsInImage() {
+    public void detectLabelsInImage() {
         //maps the confidence of a keyword onto a string representing the keyword
-        final Map<String, Float> keywords = new HashMap<String, Float>();
+
+        //CountDownLatch latch = new CountDownLatch(1);
+
+        keywords = new HashMap<>();
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
 
         FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
@@ -136,11 +147,24 @@ public class MainActivity extends AppCompatActivity {
                             String entityId = label.getEntityId();
                             float confidence = label.getConfidence();
                             keywords.put(text, confidence);
-                            System.out.println(text + entityId + confidence);
-                            System.out.println();
+                            //System.out.println(label);
+                            //System.out.println(text + entityId + confidence);
+                            //System.out.println();
                             output += text + "\n";
                         }
                         results.setText(output);
+                        //latch.countDown();
+                        //System.out.println(labels);
+
+
+                        /*
+                        List<String> lst = new ArrayList<String>();
+                        for (FirebaseVisionImageLabel x: labels) {
+                            keywords.put(x.getText(), x.getConfidence());
+                        }
+                        System.out.println(keywords);
+
+                         */
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -150,7 +174,10 @@ public class MainActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-        return keywords;
+
+        //latch.await();
+        //System.out.println("keywords1345544: " + keywords);
+        //eturn keywords;
     }
 }
 
