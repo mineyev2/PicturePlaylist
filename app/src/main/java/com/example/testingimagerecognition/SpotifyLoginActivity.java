@@ -113,7 +113,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         System.out.println("Help");
         startActivity(new Intent(this, HelpActivity.class));
     }
-
+  
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //System.out.println("running onActivityResult");
         super.onActivityResult(requestCode, resultCode, intent);
@@ -135,10 +135,14 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 // Auth flow returned an error
                 case ERROR:
                     // Handle error response
+                    finish();
+                    startActivity(new Intent(this, SpotifyLoginActivity.class));
                     break;
 
                 // Most likely auth flow was cancelled
                 default:
+                    finish();
+                    startActivity(new Intent(this, SpotifyLoginActivity.class));
                     // Handle other cases
             }
         }
