@@ -21,11 +21,6 @@
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity android:name=".SpotifyLoginActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
             >
