@@ -69,7 +69,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "https://testing.com/callback";
     private static final String CLIENT_ID = "1b2c382ea028460aac34f3b0d1f10f80";
 
-    String token;
+    String token = new String();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,32 +96,55 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         System.out.println("Sign In Button");
 
 
-        final AuthenticationRequest request = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI)
-                .setScopes(new String[]{"user-read-private", "playlist-read", "playlist-read-private", "streaming"})
-                .build();
+        loggingIn();
 
-
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
         SpotifyApi api = new SpotifyApi();
 
         api.setAccessToken(token);
         SpotifyService spotify = api.getService();
+
+        //getting an error here, might have something to do with having to input a country code...
+        /*
+        spotify.getAlbum("4eLPsYPBmXABThSJ821sqY", new Callback<Album>() {
+            @Override
+            public void success(Album album, retrofit.client.Response response) {
+                Log.d("Album success", album.name);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("Album failure", error.toString());
+            }
+        });
+
+         */
+
+        finish();
     }
 
     private void showHelpScreen() {
         System.out.println("Help");
         startActivity(new Intent(this, HelpActivity.class));
     }
-  
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //System.out.println("running onActivityResult");
-        super.onActivityResult(requestCode, resultCode, intent);
 
+    private void loggingIn() {
+        AuthenticationRequest.Builder builder =
+                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+
+        builder.setScopes(new String[]{"user-read-email user-read-private playlist-modify-public playlist-modify-private"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
-            //System.out.println("request code works");
+            System.out.println("request code works");
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 
             switch (response.getType()) {
@@ -129,7 +152,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     token = response.getAccessToken();
-                    //System.out.println("token:" + token);
+                    System.out.println("success");
                     break;
 
                 // Auth flow returned an error
@@ -146,7 +169,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     // Handle other cases
             }
         }
-        finish();
     }
 
 }
