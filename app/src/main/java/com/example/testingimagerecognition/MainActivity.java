@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         token = getIntent().getStringExtra("token");
-
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //finish();
 
     }
 
@@ -109,27 +107,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void detectLabelsInImage() {
-
-        keywords = new HashMap<>();
+        keywords = new HashMap<String, Float>();
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
-
-
 
         FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
                 .getOnDeviceImageLabeler();
-
-        //runOnUiThread(labeler.processImage(imageToCheck));
-        //runOnUiThread();
 
         labeler.processImage(imageToCheck).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
                     public void onSuccess(List<FirebaseVisionImageLabel> labels) {
 
+                        for (FirebaseVisionImageLabel label: labels) {
+                            System.out.println(label.getText());
+                            keywords.put(label.getText(), label.getConfidence());
+                        }
                         Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
                         intent.putExtra("keywords", keywords);
                         intent.putExtra("token", token);
-                        startActivity(intent);
                         finish();
+                        startActivity(intent);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -141,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        System.out.println("keywords fsohga;oiehfgo;irehg: " + keywords);
     }
 }
 
