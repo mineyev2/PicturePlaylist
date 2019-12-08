@@ -54,6 +54,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
         api.setAccessToken(token);
         new SongSearchTask().execute(keywords.keySet());
+        new GeneratePlaylistTask().execute(songs);
 
 
     }
@@ -79,6 +80,30 @@ public class PlaylistActivity extends AppCompatActivity {
 
         protected void onPostExecute(List<String> result) {
             System.out.println("songs after executing: " + songs);
+        }
+
+    }
+
+    private class GeneratePlaylistTask extends AsyncTask<List<String>, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(List<String>... lists) {
+            try {
+                SpotifyService spotify = api.getService();
+                Map<String, Object> opts = new HashMap<String, Object>();
+                opts.put("name", "PicturePlaylist");
+                opts.put("description", "This is a PicturePlaylist generated playlist!");
+                spotify.createPlaylist(spotify.getMe().display_name, opts);
+                return 1;
+            } catch (Exception e) {
+                System.err.println(e);
+                return 0;
+            }
+
+        }
+
+        protected void onPostExecute(List<String> result) {
+            System.out.println("Created Playlist: " + songs);
         }
 
     }
