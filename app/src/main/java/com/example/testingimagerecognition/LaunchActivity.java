@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +17,17 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        startActivity(new Intent(this, SpotifyLoginActivity.class));
+
+        Button loginToSpotify = (Button) findViewById(R.id.loginButton);
+
+        loginToSpotify.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                startActivity(new Intent(LaunchActivity.this, SpotifyLoginActivity.class));
+                finish();
+            }
+        });
+
 
         broadcastReceiver = new BroadcastReceiver() {
 

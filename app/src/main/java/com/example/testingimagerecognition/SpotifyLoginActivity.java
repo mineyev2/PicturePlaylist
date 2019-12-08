@@ -29,21 +29,19 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button signIn = findViewById(R.id.signIn);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spotifyAuthentification();
-            }
-        });
 
-        Button help = findViewById(R.id.help);
+        spotifyAuthentification();
+
+        //Button help = findViewById(R.id.help);
+        /*
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showHelpScreen();
             }
         });
+
+         */
     }
 
     private void spotifyAuthentification() {
@@ -60,13 +58,15 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         SpotifyApi api = new SpotifyApi();
 
         api.setAccessToken(token);
-        SpotifyService spotify = api.getService();
     }
 
+    /*
     private void showHelpScreen() {
         System.out.println("Help");
         startActivity(new Intent(this, HelpActivity.class));
     }
+
+     */
   
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //System.out.println("running onActivityResult");
