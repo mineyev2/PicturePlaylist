@@ -1,5 +1,6 @@
 package com.example.testingimagerecognition;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,42 +38,48 @@ public class PlaylistActivity extends AppCompatActivity {
      */
     private String token;
 
+
+
+    SpotifyApi api = new SpotifyApi();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
 
         token = getIntent().getStringExtra("token");
         keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
-        songs = new ArrayList<>();
-        SpotifyApi api = new SpotifyApi();
+        songs = new ArrayList<String>();
+
 
         api.setAccessToken(token);
-        SpotifyService spotify = api.getService();
 
-        System.out.println(keywords);
         for (String word: keywords.keySet()) {
-            spotify.searchTracks(word, new Callback<TracksPager>() {
-                @Override
-                public void success(TracksPager pager, Response response) {
-                    for (Track track: pager.tracks.items) {
-                        songs.add(track.id);
-                    }
-                    System.out.println(songs);
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    System.err.println("Search failure" + error.toString());
-                }
-            });
+            new SongSearchTask().execute(word);
         }
-
-
-
-
     }
 
-    private List<String> getSongs(Map<String, Float> queries) {
-        return null;
+    private class SongSearchTask extends AsyncTask<String, Void, List<String>> {
+
+
+        protected List<String> doInBackground(String... strings) {
+
+            try {
+                SpotifyService spotify = api.getService();
+                TracksPager result = spotify.searchTracks(strings[0]);
+                List<Track> trackResult = result.tracks.items;
+                for (Track track : trackResult) {
+                    songs.add(track.id);
+                }
+
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+            return songs;
+        }
+
+        protected void onPostExecute(List<String> result) {
+            System.out.println("songs after executing: " + songs);
+        }
+
     }
 }

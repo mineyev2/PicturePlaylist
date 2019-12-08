@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
@@ -27,6 +29,7 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //finish();
 
     }
 
@@ -112,11 +115,15 @@ public class MainActivity extends AppCompatActivity {
         keywords = new HashMap<>();
         FirebaseVisionImage imageToCheck = FirebaseVisionImage.fromBitmap(bitmap);
 
+
+
         FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
                 .getOnDeviceImageLabeler();
 
-        labeler.processImage(imageToCheck)
-                .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+        //runOnUiThread(labeler.processImage(imageToCheck));
+        //runOnUiThread();
+
+        labeler.processImage(imageToCheck).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
                     public void onSuccess(List<FirebaseVisionImageLabel> labels) {
                         // Task completed successfully
@@ -147,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
                         System.err.println("Error with firebase ML kit");
                     }
                 });
+
+        System.out.println("keywords fsohga;oiehfgo;irehg: " + keywords);
     }
 }
 
