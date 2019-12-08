@@ -68,7 +68,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
         final AuthenticationRequest request = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI)
-                .setScopes(new String[]{"user-read-private", "playlist-read", "playlist-read-private", "streaming"})
+                .setScopes(new String[]{"user-read-private", "playlist-read", "streaming", "playlist-read-private", "playlist-modify-private", "playlist-modify-public"})
                 .build();
 
 
