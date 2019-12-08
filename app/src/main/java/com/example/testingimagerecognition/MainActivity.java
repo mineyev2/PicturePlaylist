@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                ImageView toDisplay = (ImageView) findViewById(R.id.imageView);
-                toDisplay.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,18 +124,6 @@ public class MainActivity extends AppCompatActivity {
         labeler.processImage(imageToCheck).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
                     public void onSuccess(List<FirebaseVisionImageLabel> labels) {
-                        // Task completed successfully
-                        // ...
-                        TextView results = findViewById(R.id.textView);
-                        String output = new String();
-                        for (FirebaseVisionImageLabel label: labels) {
-                            String text = label.getText();
-                            String entityId = label.getEntityId();
-                            float confidence = label.getConfidence();
-                            keywords.put(text, confidence);
-                            output += text + "\n";
-                        }
-                        results.setText(output);
 
                         Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
                         intent.putExtra("keywords", keywords);
