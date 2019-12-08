@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
@@ -52,25 +53,24 @@ public class PlaylistActivity extends AppCompatActivity {
 
 
         api.setAccessToken(token);
+        new SongSearchTask().execute(keywords.keySet());
 
-        for (String word: keywords.keySet()) {
-            new SongSearchTask().execute(word);
-        }
+
     }
 
-    private class SongSearchTask extends AsyncTask<String, Void, List<String>> {
+    private class SongSearchTask extends AsyncTask<Set<String>, Void, List<String>> {
 
-
-        protected List<String> doInBackground(String... strings) {
-
+        @Override
+        protected List<String> doInBackground(Set<String>... lists) {
             try {
-                SpotifyService spotify = api.getService();
-                TracksPager result = spotify.searchTracks(strings[0]);
-                List<Track> trackResult = result.tracks.items;
-                for (Track track : trackResult) {
-                    songs.add(track.id);
+                for (String word: keywords.keySet()) {
+                    SpotifyService spotify = api.getService();
+                    TracksPager result = spotify.searchTracks(word);
+                    List<Track> trackResult = result.tracks.items;
+                    for (Track track : trackResult) {
+                        songs.add(track.id);
+                    }
                 }
-
             } catch (Exception e) {
                 System.err.println(e);
             }
