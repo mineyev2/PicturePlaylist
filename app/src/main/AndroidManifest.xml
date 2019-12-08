@@ -14,13 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
-        <activity android:name=".LaunchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-        </activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -28,22 +21,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SpotifyLoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
-            >
+
+        <activity android:name=".SpotifyLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
 
         <activity android:name=".PlaylistActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".HelpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Set;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
@@ -30,9 +32,9 @@ public class PlaylistActivity extends AppCompatActivity {
     Map<String, Float> keywords;
 
     /**
-     * Stores a list of the songs generated as a list of strings each representing a Spotify Song ID
+     * Stores a list of the songs generated as a list of Spotify Track objects
      */
-    List<String> songs;
+    List<Track> songs;
 
     /**
      * API token
@@ -41,7 +43,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
 
 
-    SpotifyApi api = new SpotifyApi();
+    SpotifyApi api;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,26 +51,27 @@ public class PlaylistActivity extends AppCompatActivity {
 
         token = getIntent().getStringExtra("token");
         keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
-        songs = new ArrayList<String>();
+        songs = new ArrayList<Track>();
 
-
+        api = new SpotifyApi();
         api.setAccessToken(token);
         new SongSearchTask().execute(keywords.keySet());
+        new GeneratePlaylistTask().execute();
 
 
     }
 
-    private class SongSearchTask extends AsyncTask<Set<String>, Void, List<String>> {
+    private class SongSearchTask extends AsyncTask<Set<String>, Void, List<Track>> {
 
         @Override
-        protected List<String> doInBackground(Set<String>... lists) {
+        protected List<Track> doInBackground(Set<String>... lists) {
             try {
                 for (String word: keywords.keySet()) {
                     SpotifyService spotify = api.getService();
                     TracksPager result = spotify.searchTracks(word);
                     List<Track> trackResult = result.tracks.items;
                     for (Track track : trackResult) {
-                        songs.add(track.id);
+                        songs.add(track);
                     }
                 }
             } catch (Exception e) {
@@ -82,4 +85,45 @@ public class PlaylistActivity extends AppCompatActivity {
         }
 
     }
+
+    private class GeneratePlaylistTask extends AsyncTask {
+
+        @Override
+        protected Integer doInBackground(Object[] objects) {
+            try {
+                SpotifyService spotify = api.getService();
+                Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
+                createPlaylistOpts.put("name", "PicturePlaylist");
+                createPlaylistOpts.put("description", "This is a PicturePlaylist generated playlist!");
+                Playlist p = spotify.createPlaylist(spotify.getMe().display_name, createPlaylistOpts);
+
+                Map<String, Object> bodyOpts = new HashMap<String, Object>();
+                Map<String, Object> queryOpts = new HashMap<String, Object>();
+                List<String> songList = new ArrayList<String>();
+                for (Track song: songs) {
+                    songList.add(song.uri);
+                }
+
+                bodyOpts.put("uris", songs.subList(0, 25));
+                spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
+                return 1;
+
+            } catch (Exception e) {
+                System.err.println(e);
+                return 0;
+            }
+
+        }
+
+        protected void onPostExecute(List<String> result) {
+            System.out.println("Created Playlist: " + songs);
+        }
+
+    }
+
+    private void filterSongs() {
+        List<Integer> numbers = new ArrayList<>();
+        Collections.shuffle(songs);
+    }
+
 }

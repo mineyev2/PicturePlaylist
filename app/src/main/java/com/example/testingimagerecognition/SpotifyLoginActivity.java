@@ -2,7 +2,10 @@ package com.example.testingimagerecognition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,25 +27,41 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "1b2c382ea028460aac34f3b0d1f10f80";
 
     String token;
+    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_launch);
 
-        spotifyAuthentification();
+        Button loginToSpotify = (Button) findViewById(R.id.loginButton);
 
-        //Button help = findViewById(R.id.help);
-        /*
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
+        loginToSpotify.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showHelpScreen();
+                // Do something in response to button click
+                spotifyAuthentification();
+                /*Intent startIntent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
+                startIntent.putExtra("token", token);
+                startActivity(startIntent);
+                finish();*/
             }
         });
 
-         */
+        broadcastReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                //System.out.println("broadcast received");
+                String action = intent.getAction();
+                if (action.equals("finish_activity")) {
+                    finish();
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
     }
+
 
     private void spotifyAuthentification() {
         //System.out.println("Sign In Button");
@@ -54,20 +73,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-
-        SpotifyApi api = new SpotifyApi();
-
-        api.setAccessToken(token);
     }
 
-    /*
-    private void showHelpScreen() {
-        System.out.println("Help");
-        startActivity(new Intent(this, HelpActivity.class));
-    }
-
-     */
-  
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //System.out.println("running onActivityResult");
         super.onActivityResult(requestCode, resultCode, intent);
@@ -83,28 +90,24 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     token = response.getAccessToken();
-                    //System.out.println("token: " + token);
-                    //System.out.println("token:" + token);
-
-                    Intent intentFinish = new Intent("finish_activity");
-                    sendBroadcast(intentFinish);
                     Intent intentMain = new Intent(this, MainActivity.class)
                             .putExtra("token", token);
-
+                    finish();
                     startActivity(intentMain);
-
                     break;
-
-                // Auth flow returned an error
                 case ERROR:
-                    // Handle error response
-
-                // Most likely auth flow was cancelled
+                    finish();
+                    System.err.println(response.getError());
                 default:
+                    finish();
                     // Handle other cases
             }
         }
-        finish();
+    }
+
+    protected void onStop() {
+        unregisterReceiver(broadcastReceiver);
+        super.onStop();
     }
 
 }
