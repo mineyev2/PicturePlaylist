@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,5 +120,15 @@ public class PlaylistActivity extends AppCompatActivity {
         }
 
     }
+
+    private void filterSongs() {
+        List<Integer> numbers = new ArrayList<>();
+        Collections.shuffle(songs);
+    }
+
+
+
+
+
 
 }
