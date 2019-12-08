@@ -91,6 +91,7 @@ public class PlaylistActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Object[] objects) {
             try {
+                //System.out.println("songs in generateplaylisttask: " + songs);
                 SpotifyService spotify = api.getService();
                 Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
                 createPlaylistOpts.put("name", "PicturePlaylist");
@@ -109,7 +110,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 return 1;
 
             } catch (Exception e) {
-                System.err.println(e);
+                System.err.println("error: " + e);
                 return 0;
             }
 
