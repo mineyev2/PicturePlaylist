@@ -80,7 +80,7 @@ public class PlaylistActivity extends AppCompatActivity {
             return songs;
         }
 
-        protected void onPostExecute(List<String> result) {
+        protected void onPostExecute(List<Track> result) {
             System.out.println("songs after executing: " + songs);
         }
 
