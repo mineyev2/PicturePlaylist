@@ -105,7 +105,7 @@ public class PlaylistActivity extends AppCompatActivity {
                     songList.add(song.uri);
                 }
 
-                bodyOpts.put("uris", songs.subList(0, 25));
+                bodyOpts.put("uris", songList.subList(0, 25));
                 spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
                 return 1;
 
