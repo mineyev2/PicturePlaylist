@@ -11,7 +11,7 @@
         android:layout_width="413dp"
         android:layout_height="54dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="sans-serif"
         android:text="@string/launcherIntro"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -22,10 +22,10 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="410dp"
-        android:layout_height="134dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto_light"
+        android:layout_width="371dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-light"
         android:text="@string/explanation"
         android:textAlignment="viewStart"
         android:textColor="@color/colorSecondary"
@@ -36,8 +36,9 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="413dp"
-        android:layout_height="422dp"
+        android:layout_width="371dp"
+        android:layout_height="420dp"
+        android:fontFamily="sans-serif-light"
         android:text="@string/steps"
         android:textColor="#C5C6C7"
         android:textSize="20sp"
