@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 2;
     public Bitmap bitmap;
     private String token;
+    private String playlistName;
+
     HashMap<String, Float> keywords;
 
 
@@ -46,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Drawable d = ((ImageView) findViewById(R.id.imageView)).getDrawable();
+        bitmap = ((BitmapDrawable) d).getBitmap();
 
         token = getIntent().getStringExtra("token");
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -94,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     //starts an intent which allows user to select only specific image types
     // I think that's what android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI is specifying
-    private void pickFromGallery(){
+    private void pickFromGallery() {
         try{
             Intent intent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -129,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            detectLabelsInImage();
+
 
 
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -138,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
             imageView.setImageBitmap(bitmap);
         }
+
+        detectLabelsInImage();
     }
 
     public void detectLabelsInImage() {
@@ -161,10 +171,21 @@ public class MainActivity extends AppCompatActivity {
                         confirm.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
                                 // Do something in response to button click
+                                EditText editText = findViewById(R.id.editText);
+
+                                String txt = editText.getText().toString();
+                                if (txt == null || txt.length() == 0) {
+                                    playlistName = "Spoterator Playlist";
+                                } else {
+                                    playlistName = txt;
+                                }
+
                                 finish();
                                 Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
                                 intent.putExtra("keywords", keywords);
                                 intent.putExtra("token", token);
+                                intent.putExtra("playlistName", playlistName);
+
                                 startActivity(intent);
                             }
                         });
