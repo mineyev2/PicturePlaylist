@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,9 +35,9 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     public static final int GALLERY_REQUEST_CODE  = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
     public Bitmap bitmap;
     private String token;
-    private String playlistName;
     HashMap<String, Float> keywords;
 
 
@@ -63,13 +62,34 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 pickFromGallery();
-
             }
         });
 
 
+        Button camera = findViewById(R.id.takePicture);
+        PackageManager pm = getPackageManager();
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            camera.setEnabled(false);
+        } else {
+            camera.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    takePic();
+                }
+            });
+        }
+
+
 
     }
+
+
+    private void takePic() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
 
 
     //starts an intent which allows user to select only specific image types
@@ -112,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
             detectLabelsInImage();
 
 
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(bitmap);
         }
     }
 
@@ -136,13 +161,10 @@ public class MainActivity extends AppCompatActivity {
                         confirm.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
                                 // Do something in response to button click
-                                EditText editText = findViewById(R.id.editText);
-                                playlistName = editText.getText().toString();
                                 finish();
                                 Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
                                 intent.putExtra("keywords", keywords);
                                 intent.putExtra("token", token);
-                                intent.putExtra("playlistName", playlistName);
                                 startActivity(intent);
                             }
                         });
