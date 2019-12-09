@@ -6,20 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/selectImage"
+        android:layout_width="408dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/background"
+        android:text="Open Gallery"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/selectImage2"
+        tools:layout_editor_absoluteX="2dp" />
 
-        <Button
-            android:id="@+id/selectImage"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#2E5C30"
-            android:text="From Gallery"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/selectImage2"
+        android:layout_width="408dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/background"
+        android:text="Take a Picture"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="607dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
