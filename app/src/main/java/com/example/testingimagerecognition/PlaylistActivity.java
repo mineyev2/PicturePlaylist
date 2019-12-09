@@ -1,6 +1,8 @@
 package com.example.testingimagerecognition;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +50,8 @@ public class PlaylistActivity extends AppCompatActivity {
 
     SpotifyApi api;
 
+    Playlist playlist;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
@@ -62,13 +66,7 @@ public class PlaylistActivity extends AppCompatActivity {
             }
         });
 
-        Button spot = findViewById(R.id.spotifyBut);
-        spot.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Do something in response to button click
-                
-            }
-        });
+
 
 
         token = getIntent().getStringExtra("token");
@@ -117,7 +115,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
                 createPlaylistOpts.put("name", "PicturePlaylist");
                 createPlaylistOpts.put("description", "This is a PicturePlaylist generated playlist!");
-                Playlist p = spotify.createPlaylist(spotify.getMe().display_name, createPlaylistOpts);
+                playlist = spotify.createPlaylist(spotify.getMe().display_name, createPlaylistOpts);
 
                 Map<String, Object> bodyOpts = new HashMap<String, Object>();
                 Map<String, Object> queryOpts = new HashMap<String, Object>();
@@ -136,7 +134,7 @@ public class PlaylistActivity extends AppCompatActivity {
                 bodyOpts.put("uris", songList);
 
                 //bodyOpts.put("uris", songList.subList(0, 50));
-                spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
+                spotify.addTracksToPlaylist(spotify.getMe().id, playlist.id, queryOpts, bodyOpts);
                 return 1;
 
             } catch (Exception e) {
@@ -147,6 +145,35 @@ public class PlaylistActivity extends AppCompatActivity {
 
         protected void onPostExecute(Integer result) {
             System.out.println("Created Playlist: " + songs);
+            Button spot = findViewById(R.id.spotifyBut);
+            spot.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    setLink();
+                }
+            });
+        }
+
+    }
+
+
+    private void setLink() {
+        PackageManager pm = getPackageManager();
+        boolean isSpotifyInstalled;
+        try {
+            pm.getPackageInfo("com.spotify.music", 0);
+            isSpotifyInstalled = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            isSpotifyInstalled = false;
+        }
+
+        if (isSpotifyInstalled) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(playlist.uri));
+            intent.putExtra(Intent.EXTRA_REFERRER,
+                    Uri.parse("android-app://" + getApplicationContext().getPackageName()));
+            startActivity(intent);
+        } else {
+            System.err.println("Spotify not installed");
         }
 
     }
