@@ -34,7 +34,7 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="413dp"
-        android:layout_height="446dp"
+        android:layout_height="422dp"
         android:text="@string/steps"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:layout_editor_absoluteX="0dp" />
@@ -48,6 +48,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="3dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

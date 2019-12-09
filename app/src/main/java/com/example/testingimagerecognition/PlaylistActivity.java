@@ -91,7 +91,6 @@ public class PlaylistActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Object[] objects) {
             try {
-                //System.out.println("songs in generateplaylisttask: " + songs);
                 SpotifyService spotify = api.getService();
                 Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
                 createPlaylistOpts.put("name", "PicturePlaylist");
@@ -100,23 +99,26 @@ public class PlaylistActivity extends AppCompatActivity {
 
                 Map<String, Object> bodyOpts = new HashMap<String, Object>();
                 Map<String, Object> queryOpts = new HashMap<String, Object>();
+
                 List<String> songList = new ArrayList<String>();
+
                 Collections.shuffle(songs);
+                if (songs.size() > 50) {
+                    songs = songs.subList(0, 50);
+                }
+
                 for (Track song: songs) {
                     songList.add(song.uri);
                 }
 
-                if(songList.size() >= 50) {
-                    bodyOpts.put("uris", songList.subList(0, 50));
-                } else {
-                    bodyOpts.put("uris", songList);
-                }
+                bodyOpts.put("uris", songList);
 
+                //bodyOpts.put("uris", songList.subList(0, 50));
                 spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
                 return 1;
 
             } catch (Exception e) {
-                System.err.println("error: " + e);
+                System.err.println(e);
                 return 0;
             }
 
@@ -125,5 +127,8 @@ public class PlaylistActivity extends AppCompatActivity {
         protected void onPostExecute(List<String> result) {
             System.out.println("Created Playlist: " + songs);
         }
+
     }
+
+
 }
