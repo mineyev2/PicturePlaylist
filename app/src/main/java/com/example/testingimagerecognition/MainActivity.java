@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public Bitmap bitmap;
     private String token;
     HashMap<String, Float> keywords;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -121,11 +126,22 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println(label.getText());
                             keywords.put(label.getText(), label.getConfidence());
                         }
-                        Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
-                        intent.putExtra("keywords", keywords);
-                        intent.putExtra("token", token);
-                        finish();
-                        startActivity(intent);
+
+                        Button confirm = findViewById(R.id.confirm);
+
+                        confirm.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                // Do something in response to button click
+                                finish();
+                                Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
+                                intent.putExtra("keywords", keywords);
+                                intent.putExtra("token", token);
+                                startActivity(intent);
+                            }
+                        });
+
+
+
 
                     }
                 })
