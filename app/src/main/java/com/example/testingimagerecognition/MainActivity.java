@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int GALLERY_REQUEST_CODE  = 1;
     public Bitmap bitmap;
     private String token;
+    private String playlistName;
     HashMap<String, Float> keywords;
 
 
@@ -61,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Do something in response to button click
                 pickFromGallery();
+
             }
         });
+
 
 
     }
@@ -132,10 +136,13 @@ public class MainActivity extends AppCompatActivity {
                         confirm.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
                                 // Do something in response to button click
+                                EditText editText = findViewById(R.id.editText);
+                                playlistName = editText.getText().toString();
                                 finish();
                                 Intent intent = new Intent(MainActivity.this, PlaylistActivity.class);
                                 intent.putExtra("keywords", keywords);
                                 intent.putExtra("token", token);
+                                intent.putExtra("playlistName", playlistName);
                                 startActivity(intent);
                             }
                         });
