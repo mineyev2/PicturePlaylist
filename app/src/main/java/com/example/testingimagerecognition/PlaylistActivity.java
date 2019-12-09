@@ -45,6 +45,7 @@ public class PlaylistActivity extends AppCompatActivity {
      * API token
      */
     private String token;
+    private String playlistName;
 
 
 
@@ -71,6 +72,7 @@ public class PlaylistActivity extends AppCompatActivity {
 
         token = getIntent().getStringExtra("token");
         keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
+        playlistName = getIntent().getStringExtra("playlistName");
         songs = new ArrayList<Track>();
 
         api = new SpotifyApi();
@@ -113,7 +115,7 @@ public class PlaylistActivity extends AppCompatActivity {
             try {
                 SpotifyService spotify = api.getService();
                 Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
-                createPlaylistOpts.put("name", "PicturePlaylist");
+                createPlaylistOpts.put("name", playlistName);
                 createPlaylistOpts.put("description", "This is a PicturePlaylist generated playlist!");
                 playlist = spotify.createPlaylist(spotify.getMe().display_name, createPlaylistOpts);
 
