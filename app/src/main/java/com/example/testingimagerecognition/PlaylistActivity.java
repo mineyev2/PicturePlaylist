@@ -1,8 +1,11 @@
 package com.example.testingimagerecognition;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,6 +51,25 @@ public class PlaylistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
+
+
+        Button start = findViewById(R.id.startOver);
+        start.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                startActivity(new Intent(PlaylistActivity.this, SpotifyLoginActivity.class));
+                finish();
+            }
+        });
+
+        Button spot = findViewById(R.id.spotifyBut);
+        spot.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Do something in response to button click
+                
+            }
+        });
+
 
         token = getIntent().getStringExtra("token");
         keywords = (HashMap<String, Float>) getIntent().getSerializableExtra("keywords");
