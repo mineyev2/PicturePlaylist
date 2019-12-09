@@ -108,10 +108,10 @@ public class PlaylistActivity extends AppCompatActivity {
 
     }
 
-    private class GeneratePlaylistTask extends AsyncTask {
+    private class GeneratePlaylistTask extends AsyncTask<Object[], Void, Integer> {
 
         @Override
-        protected Integer doInBackground(Object[] objects) {
+        protected Integer doInBackground(Object[]... objects) {
             try {
                 SpotifyService spotify = api.getService();
                 Map<String, Object> createPlaylistOpts = new HashMap<String, Object>();
@@ -143,10 +143,9 @@ public class PlaylistActivity extends AppCompatActivity {
                 System.err.println(e);
                 return 0;
             }
-
         }
 
-        protected void onPostExecute(List<String> result) {
+        protected void onPostExecute(Integer result) {
             System.out.println("Created Playlist: " + songs);
         }
 
