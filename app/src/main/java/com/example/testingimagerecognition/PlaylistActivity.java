@@ -105,7 +105,13 @@ public class PlaylistActivity extends AppCompatActivity {
                 for (Track song: songs) {
                     songList.add(song.uri);
                 }
-                bodyOpts.put("uris", songList.subList(0, 50));
+
+                if(songList.size() >= 50) {
+                    bodyOpts.put("uris", songList.subList(0, 50));
+                } else {
+                    bodyOpts.put("uris", songList);
+                }
+
                 spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
                 return 1;
 
