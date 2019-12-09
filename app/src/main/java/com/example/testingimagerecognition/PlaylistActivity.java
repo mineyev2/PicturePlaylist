@@ -99,12 +99,21 @@ public class PlaylistActivity extends AppCompatActivity {
 
                 Map<String, Object> bodyOpts = new HashMap<String, Object>();
                 Map<String, Object> queryOpts = new HashMap<String, Object>();
+
                 List<String> songList = new ArrayList<String>();
+
+                Collections.shuffle(songs);
+                if (songs.size() > 50) {
+                    songs = songs.subList(0, 50);
+                }
+
                 for (Track song: songs) {
                     songList.add(song.uri);
                 }
 
-                bodyOpts.put("uris", songs.subList(0, 25));
+                bodyOpts.put("uris", songList);
+
+                //bodyOpts.put("uris", songList.subList(0, 50));
                 spotify.addTracksToPlaylist(spotify.getMe().id, p.id, queryOpts, bodyOpts);
                 return 1;
 
@@ -121,9 +130,5 @@ public class PlaylistActivity extends AppCompatActivity {
 
     }
 
-    private void filterSongs() {
-        List<Integer> numbers = new ArrayList<>();
-        Collections.shuffle(songs);
-    }
 
 }
