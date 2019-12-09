@@ -24,7 +24,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
     //i made my own client id stuff for now for testing purposes
     private static final String REDIRECT_URI = "https://testing.com/callback";
-    private static final String CLIENT_ID = "a0f1241498384db5ba98d07fd0ec4b99";
+    private static final String CLIENT_ID = "1b2c382ea028460aac34f3b0d1f10f80";
+
 
     String token;
 
