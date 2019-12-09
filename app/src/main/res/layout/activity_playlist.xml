@@ -18,8 +18,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             android:lineSpacingExtra="4sp"
-            android:text="Thank you for using Spoterator! Your playlist has been generated on your spotify account. Please tap the button below, or open the Spotify app to listen!"
-            android:textAlignment="viewStart"
+            android:text="Thank you for using Spoterator! Your playlist has been generated on your Spotify account. Please tap the button below, or open the Spotify app to listen!"
+            android:textAlignment="center"
             android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,21 +40,22 @@
 
         <Button
             android:id="@+id/spotifyBut"
-            android:layout_width="195dp"
-            android:layout_height="83dp"
-            android:layout_marginBottom="112dp"
+            android:layout_width="218dp"
+            android:layout_height="74dp"
+            android:layout_marginBottom="116dp"
             android:background="@color/background"
             android:drawableRight="@drawable/spotify_icon"
             android:text="Open Playlist in Spotify"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="402dp"
+            android:layout_height="186dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="140dp"
             app:layout_constraintBottom_toBottomOf="parent"

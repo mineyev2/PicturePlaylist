@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button confirm = findViewById(R.id.confirm);
+        confirm.setVisibility(View.INVISIBLE);
         Drawable d = ((ImageView) findViewById(R.id.imageView)).getDrawable();
         bitmap = ((BitmapDrawable) d).getBitmap();
 
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
 
 
     }
@@ -147,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
 
+        Button confirm = findViewById(R.id.confirm);
+        confirm.setVisibility(View.VISIBLE);
         detectLabelsInImage();
     }
 
