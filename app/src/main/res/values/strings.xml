@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Picture Playlist Generator</string>
     <string name = "launcherIntro">Welcome to Spoterator!</string>
-    <string name = "explanation">Spoterator is an app which enables you to generate a Spotify playlist using any picture that you have! All you have to do is follow these simple steps below!</string>
-    <string name = "steps">\n\nStep 1: Login to Spotify\n\nStep 2: Select an image\n\nStep 3: Confirm, and you are done!</string>
+    <string name = "explanation">Spoterator is an app which allows you to create a unique, personalized Spotify playlist for any mood using your favorite pictures. All you have to do is follow these simple steps below!</string>
+    <string name = "steps">\n\nStep 1: Login to Spotify\n\nStep 2: Select an image\n\nStep 3: Confirm, sit back, and listen!</string>
 </resources>
