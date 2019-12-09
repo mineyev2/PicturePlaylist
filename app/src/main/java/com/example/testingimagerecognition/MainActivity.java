@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     public static final int GALLERY_REQUEST_CODE  = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
     public Bitmap bitmap;
     private String token;
     HashMap<String, Float> keywords;
@@ -65,7 +66,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        Button camera = findViewById(R.id.takePicture);
+        PackageManager pm = getPackageManager();
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            camera.setEnabled(false);
+        } else {
+            camera.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    takePic();
+                }
+            });
+        }
+
+
+
     }
+
+
+    private void takePic() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
 
 
     //starts an intent which allows user to select only specific image types
@@ -108,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
             detectLabelsInImage();
 
 
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            bitmap = (Bitmap) extras.get("data");
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(bitmap);
         }
     }
 
