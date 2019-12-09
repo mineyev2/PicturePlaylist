@@ -27,7 +27,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "1b2c382ea028460aac34f3b0d1f10f80";
 
     String token;
-    BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +46,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             }
         });
 
-        broadcastReceiver = new BroadcastReceiver() {
-
-            @Override
-            public void onReceive(Context arg0, Intent intent) {
-                //System.out.println("broadcast received");
-                String action = intent.getAction();
-                if (action.equals("finish_activity")) {
-                    finish();
-                    // DO WHATEVER YOU WANT.
-                }
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
     }
 
 
@@ -104,12 +90,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             }
         }
     }
-
-    protected void onStop() {
-        unregisterReceiver(broadcastReceiver);
-        super.onStop();
-    }
-
 }
 
 
